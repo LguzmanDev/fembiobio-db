@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emprendimientos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="title-container">
+        <h1>Emprendimientos</h1>
+        {% if current_user.role == 'admin' %}
+            <a class="add-button" href="{{ url_for('new_emprendimiento') }}">Agregar</a>
+        {% endif %}
+    </div>
+    <br><br>
+    <!-- Tabla de conteo -->
+    <div class="count-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Verde (si)</th>
+                    <th>Amarillo (error)</th>
+                    <th>Rojo (no)</th>
+                    <th>Total (celeste)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="status-si">{{ count_si }}</td>
+                    <td class="status-error">{{ count_error }}</td>
+                    <td class="status-no">{{ count_no }}</td>
+                    <td class="status-total">{{ count_total }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <br><br>
+    <table>
+        <thead>
+            <tr>
+                <th>RUN (clickable)</th>
+                <th>Nombre Emprendimiento</th>
+                <th>RUT</th>
+                <th>Nombre Representante</th>
+                <th>Correo Electrónico</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Provincia</th>
+                <th>Comuna</th>
+                <th>Mercado</th>
+                {% if current_user.role == 'admin' %}
+                    <th>Acciones</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for emprendimiento in emprendimientos %}
+            <tr>
+                <td><a href="{{ url_for('detalle', emprendimiento_id=emprendimiento.id) }}">{{ emprendimiento.run }}</a></td>
+                <td>{{ emprendimiento.nombre_emprendimiento }}</td>
+                <td>{{ emprendimiento.rut }}</td>
+                <td>{{ emprendimiento.nombre_representante }}</td>
+                <td>{{ emprendimiento.correo_electronico }}</td>
+                <td>{{ emprendimiento.telefono }}</td>
+                <td>{{ emprendimiento.direccion }}</td>
+                <td>{{ emprendimiento.provincia }}</td>
+                <td>{{ emprendimiento.comuna }}</td>
+                <td class="status-cell">
+                    <div class="status-indicator {% if emprendimiento.estado == 'si' %}status-si{% elif emprendimiento.estado == 'no' %}status-no{% elif emprendimiento.estado == 'error' %}status-error{% endif %}"></div>
+                </td>
+                {% if current_user.role == 'admin' %}
+                <td class="acciones">
+                    <a href="{{ url_for('edit_emprendimiento', id=emprendimiento.id) }}">Editar</a>
+                    <form action="{{ url_for('delete_emprendimiento', emprendimiento_id=emprendimiento.id) }}" method="post" style="display:inline;">
+                        {{ form.hidden_tag() }}
+                        <input type="submit" value="Eliminar">
+                    </form>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

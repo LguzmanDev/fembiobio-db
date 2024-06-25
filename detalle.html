@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Emprendimiento: {{ emprendimiento.nombre_emprendimiento }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+</head>
+<body>
+    <div class="details-container">
+        <h1>Detalle del Emprendimiento: {{ emprendimiento.nombre_emprendimiento }}</h1>
+        <p><strong>RUN:</strong> {{ emprendimiento.run }}</p>
+        <p><strong>RUT:</strong> {{ emprendimiento.rut }}</p>
+        <p><strong>Nombre Representante:</strong> {{ emprendimiento.nombre_representante }}</p>
+        <p><strong>Correo Electrónico:</strong> {{ emprendimiento.correo_electronico }}</p>
+        <p><strong>Teléfono:</strong> {{ emprendimiento.telefono }}</p>
+        <p><strong>Dirección:</strong> {{ emprendimiento.direccion }}</p>
+        <p><strong>Provincia:</strong> {{ emprendimiento.provincia }}</p>
+        <p><strong>Comuna:</strong> {{ emprendimiento.comuna }}</p>
+        <p><strong>Estado:</strong> {{ emprendimiento.estado }}</p>
+
+        <h2>Detalles:</h2>
+        <div class="details-content">
+            {% for detalle in detalles %}
+            <div>
+                <p><strong>Logo:</strong> <a href="{{ detalle.logo }}" target="_blank">{{ detalle.logo }}</a></p>
+                <p><strong>Video:</strong> <a href="{{ detalle.video }}" target="_blank">{{ detalle.video }}</a></p>
+                <p><strong>Redes Sociales:</strong> {{ detalle.redes_sociales }}</p>
+                <p><strong>Reseña:</strong> {{ detalle.resena }}</p>
+                <p><strong>Productos:</strong> {{ detalle.productos }}</p>
+                <p><strong>Notas:</strong> {{ detalle.notas }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a class="return-link" href="{{ url_for('index') }}"><span>Volver a la lista</span></a>
+    </div>
+</body>
+</html>
